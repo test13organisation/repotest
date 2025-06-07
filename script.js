@@ -7,29 +7,29 @@ const webhookURL = 'https://webhook.site/f06326df-3550-4c4e-a51f-f3171cfa8d14';
 if (token === 'post') {
   message.textContent = 'Sending webhook...';
 
-  // ✅ Here's the fetch() call you asked for
-  fetch(webhookURL, {
-    method: 'POST',
-    mode: 'no-cors', // <- Important to stop CORS error
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      token: token,
-      source: 'GitHub Pages - Token Viewer',
-      timestamp: new Date().toISOString()
-    })
-  })
-  .then(() => {
-    // ⚠ In no-cors mode, you can't read the response — so assume success
-    message.textContent = '✅ Webhook sent (silent mode).';
-    console.log('✅ Webhook successfully fired (no-cors)');
-  })
-  .catch(err => {
-    // This should rarely be hit with no-cors mode
+  try {
+    fetch(webhookURL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        token: token,
+        source: 'GitHub Pages - Token Viewer',
+        timestamp: new Date().toISOString()
+      })
+    });
+
+    // ✅ You will always assume it sent (because no-cors gives you no info)
+    message.textContent = '✅ Webhook sent (cannot confirm due to no-cors mode)';
+    console.log('✅ Webhook sent (no-cors, browser gives no response info)');
+
+  } catch (err) {
+    // This would only trigger if fetch() itself is broken
     message.textContent = '❌ Failed to send webhook.';
-    console.error('❌ Error sending webhook:', err);
-  });
+    console.error('❌ Error during fetch():', err);
+  }
 
 } else if (token) {
   message.textContent = `🔐 Token received: ${token}`;
