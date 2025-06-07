@@ -20,13 +20,11 @@ if (token === 'post') {
     })
   })
     .then(res => {
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return res.text();
-    })
-    .then(data => {
-      message.textContent = '✅ Webhook sent successfully!';
-      console.log('Webhook response:', data);
-    })
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  message.textContent = '✅ Webhook sent successfully!';
+  console.log('Webhook status:', res.status);
+})
+
     .catch(err => {
       message.textContent = '❌ Failed to send webhook.';
       console.error('Error sending webhook:', err);
