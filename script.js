@@ -2,7 +2,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const token = urlParams.get('token');
 const message = document.getElementById('message');
 
-// Replace with your actual webhook URL
+// Your Webhook.site URL
 const webhookURL = 'https://webhook.site/f06326df-3550-4c4e-a51f-f3171cfa8d14';
 
 if (token === 'post') {
@@ -14,12 +14,13 @@ if (token === 'post') {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      timestamp: new Date().toISOString(),
-      info: 'Triggered via GitHub Pages with ?token=post'
+      token: token,
+      source: 'GitHub Pages - Token Viewer',
+      timestamp: new Date().toISOString()
     })
   })
     .then(res => {
-      if (!res.ok) throw new Error(`Status ${res.status}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return res.text();
     })
     .then(data => {
@@ -28,7 +29,7 @@ if (token === 'post') {
     })
     .catch(err => {
       message.textContent = '❌ Failed to send webhook.';
-      console.error('Webhook error:', err);
+      console.error('Error sending webhook:', err);
     });
 
 } else if (token) {
@@ -36,4 +37,3 @@ if (token === 'post') {
 } else {
   message.textContent = "No token was provided in the URL.";
 }
-
