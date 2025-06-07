@@ -3,7 +3,7 @@ const token = urlParams.get('token');
 const message = document.getElementById('message');
 
 // Replace with your actual webhook URL
-const webhookURL = 'https://your-webhook-url.com/webhook-endpoint';
+const webhookURL = 'https://webhook.site/f06326df-3550-4c4e-a51f-f3171cfa8d14';
 
 if (token === 'post') {
   message.textContent = 'Sending webhook...';
